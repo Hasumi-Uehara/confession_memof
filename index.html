@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>懺悔のメモ帳アプリ</title>
+  <link rel="stylesheet" href="css/sample.css">
+</head>
+<body>
+  <header>
+    <h1>懺悔のMemoPad</h1>
+  </header>
+
+  <main>
+    <input type="text" id="input" placeholder="クリックしてタイトルを入力">
+    <textarea id="text_area" placeholder="クリックしてメモを入力"></textarea>
+    <ul>
+      <li id="save">保存</li>
+      <li id="clear">削除</li>
+    </ul>
+  </main>
+
+  <footer>
+    <small>G's ACADEMY</small>
+  </footer>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    $(function (){
+
+      //1.Save クリックイベント
+      $('#save').on('click',function(){
+        var title = $('#input').val();
+        var text = $('#text_area').val();
+        var obj = {
+          "title": title,
+          "text": text
+        };
+        var json = JSON.stringify(obj);
+        localStorage.setItem('memo',json);
+
+        const savebtn = document.getElementById('save');
+        savebtn.innerHTML = "保存しました";
+      });
+      //2.Clear クリックイベント
+      $('#clear').on('click',function(){
+        localStorage.removeItem('memo');
+        $('#input').val('');
+        $('#text_area').val('');
+      });
+      //3.ページ読み込み＆保存データ取得表示
+      if(localStorage.getItem('memo')){
+        var json_get = localStorage.getItem('memo');
+        var obj_get = JSON.parse(json_get);
+        $('#input').val(obj_get.title);
+        $('text_area').val(obj_get.text);
+      }
+    });
+
+
+  </script>
+</body>
+</html>
